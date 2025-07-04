@@ -3,15 +3,13 @@
 #记得先运行chmod哦~
 
 #安装软件
+sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirror.nju.edu.cn/termux/apt/termux-main stable main@' $PREFIX/etc/apt/sources.list #固定软件源为南京大学
 pkg update && pkg upgrade -y
 pkg install openssh openjdk-17 vim clang python3 htop mandoc -y
 
-#简单配置ssh
-whoami >> ~/init_log.txt #记录用户名，格式类似u0_a120
+#初始化密码便于ssh访问（不安全的做法！！）
 echo '00000000
-00000000' | passwd      #初始化密码便于ssh访问（不安全的做法！！）
-echo sshd > ~/.bashrc   #bash启动时即自启动ssh服务
-sshd
+00000000' | passwd
 
 #安装spark
 cd ~
@@ -20,8 +18,11 @@ tar -zxvf spark-3.5.6-bin-hadoop3.tgz
 mv ~/spark-3.5.6-bin-hadoop3 ~/spark    #简化
 rm ~/spark-3.5.6-bin-hadoop3.tgz
 
+#配置自启动
+echo 'sshd' >> ~/.bashrc
+echo 'ifconfig | grep 192.' >> ~/.bashrc
+echo 'whoami' >> ~/.bashrc
 #结束
-ifconfig | grep 192 >> ~/init_log.txt   #获取ip地址
-reset
-cat ~/init_log.txt
+clear
 echo '完成'
+bash
