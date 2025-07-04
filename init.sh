@@ -3,8 +3,7 @@
 #记得先运行chmod哦~
 
 #安装软件
-sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirror.nju.edu.cn/termux/apt/termux-main stable main@' $PREFIX/etc/apt/sources.list #固定软件源为南京大学
-pkg update && pkg upgrade -y
+pkg update && pkg upgrade -y 
 pkg install openssh openjdk-17 vim clang python3 htop mandoc -y
 
 #初始化密码便于ssh访问（不安全的做法！！）
